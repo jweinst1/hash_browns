@@ -8,7 +8,7 @@ pub trait ToU32Int {
 pub trait ToU64Int {
     fn to_u64(&self) -> u64;
 }
-
+/// Acts as a container to manipulate an integer byte by byte.
 pub struct ByteInt32 {
     bytes:[u8;4]
 }
@@ -24,6 +24,17 @@ impl From<u32> for ByteInt32 {
                    ((num >> 16) & 0xFF) as u8, 
                    ((num >> 8) & 0xFF) as u8, 
                    (num & 0xFF) as u8]
+        }
+    }
+}
+
+impl From<&[u8]> for ByteInt32 {
+    fn from(a_bytes:&[u8]) -> ByteInt32 {
+        if a_bytes.len() != 4 {
+            panic!("Expected 4 byte slice, got {:?} byte slice.", a_bytes.len());
+        }
+        ByteInt32 {
+            bytes:[a_bytes[0], a_bytes[1], a_bytes[2], a_bytes[3]]
         }
     }
 }
