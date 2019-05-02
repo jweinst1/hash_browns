@@ -1,12 +1,12 @@
 use std::ops::{Index, IndexMut};
 
-
+/// Specifies conversion method to unsigned 32 bit
 pub trait ToU32Int {
     fn to_u32(&self) -> u32;
 }
-
+/// Specifies conversion method to unsigned 64 bit
 pub trait ToU64Int {
-    fn to_u32(&self) -> u64;
+    fn to_u64(&self) -> u64;
 }
 
 pub struct ByteInt32 {
@@ -56,12 +56,38 @@ impl IndexMut<usize> for ByteInt32 {
     }
 }
 
+impl Index<usize> for ByteInt64 {
+    type Output = u8;
+    fn index<'a>(&'a self, index: usize) -> &'a u8 {
+        & self.bytes[index]
+    }
+}
+
+impl IndexMut<usize> for ByteInt64 {
+    fn index_mut(&mut self, index: usize) -> &mut u8 {
+        &mut self.bytes[index]
+    }
+}
+
 impl ToU32Int for ByteInt32 {
     fn to_u32(&self) -> u32 {
         return ((self.bytes[0] as u32) << 24) |
         ((self.bytes[1] as u32) << 16) |
         ((self.bytes[2] as u32) << 8)  |
         (self.bytes[3] as u32);
+    }
+}
+
+impl ToU64Int for ByteInt64 {
+    fn to_u64(&self) -> u64 {
+        return  ((self.bytes[0] as u64) << 56) | 
+        ((self.bytes[1] as u64) << 48) | 
+        ((self.bytes[2] as u64) << 40) |
+        ((self.bytes[3] as u64) << 32) | 
+        ((self.bytes[4] as u64) << 24) |
+        ((self.bytes[5] as u64) << 16) |
+        ((self.bytes[6] as u64) << 8)  |
+        (self.bytes[7] as u64);
     }
 }
 
@@ -74,4 +100,11 @@ mod nutils_tests {
         let c = ByteInt32::from(78);
         assert_eq!(c.to_u32(), 78);
     }
+
+    #[test]
+    fn byte_int_64_to_u64_works() {
+        let c = ByteInt64::from(7887532);
+        assert_eq!(c.to_u64(), 7887532);
+    }
+
 }
