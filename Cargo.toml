@@ -6,5 +6,6 @@ edition = "2018"
 readme = "README.md"
 description = "A crate full of fast, effecient hashing functions."
 license = "MIT"
+repository = "https://github.com/jweinst1/hash_browns"
 
 [dependencies]
