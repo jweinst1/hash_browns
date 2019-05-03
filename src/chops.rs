@@ -1,5 +1,13 @@
 use crate::numbers::*;
 
+/// Enum that represents seeds for hashing functions. 
+/// Such as,
+/// ```
+/// use hash_browns::chops::ChopSeeds;
+/// let seed = ChopSeeds::Straight as u32;
+/// ```
+/// In the above example, the enum case can be cast as 
+/// an unsigned 32bit integer.
 pub enum ChopSeeds {
 	Straight = 0xf329ab19,
 	Straight64 = 0xd39cf32af329ab
